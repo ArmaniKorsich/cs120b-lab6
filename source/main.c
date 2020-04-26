@@ -59,11 +59,13 @@ void main() {
     DDRC = 0xFF; PORTC = 0x00;
     TimerSet(1000);
     TimerOn();
-
+    PORTC = 0x55;
     /* Insert your solution below */
     while (1) {
         while (!TimerFlag);
         TimerFlag = 0;
+        PORTC ~= PORTC;
     }
+    
     return 1;
 }
