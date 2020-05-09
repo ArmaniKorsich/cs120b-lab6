@@ -102,7 +102,7 @@ void TickFct() {
 			}
 			else
 			{	
-				state = START;
+				state = SM_0;
 			}
 			break;
 		case SM_4:
