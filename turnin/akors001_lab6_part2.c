@@ -56,7 +56,14 @@ enum SM_States {START, SM_0, SM_1, SM_2, SM_3, SM_4, SM_5 } state;
 void TickFct() {
 	switch(state) {
 		case START:
-			state = SM_0;
+			if ((~PINA & 0x01) == 0x01)
+			{
+				state = START;
+			}
+			else
+			{
+				state = SM_0;
+			}
 			break;
 		case SM_0:
 			if ((~PINA & 0x01) == 0x01)
