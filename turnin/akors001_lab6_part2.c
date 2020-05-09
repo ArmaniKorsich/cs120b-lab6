@@ -51,11 +51,14 @@ void TimerSet(unsigned long M) {
 }
 
 
-enum SM_States {START, SM_1, SM_2, SM_3, SM_4, SM_5, SM_6 } state;
+enum SM_States {START, SM_0, SM_1, SM_2, SM_3, SM_4, SM_5, SM_6 } state;
 
 void TickFct() {
 	switch(state) {
 		case START:
+			state = SM_0;
+			break;
+		case SM_0:
 			if ((~PINA & 0x01) == 0x01)
 			{
 				state = SM_4;
@@ -132,6 +135,9 @@ void TickFct() {
 
 	switch(state) {
 		case START:
+			PORTB = 0x01;
+			break;
+		case SM_0:
 			PORTB = 0x01;
 			break;
 		case SM_1:
