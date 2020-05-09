@@ -51,11 +51,21 @@ void TimerSet(unsigned long M) {
 }
 
 
-enum SM_States {START, SM_1, SM_2, SM_3, SM_4, SM_5, SM_6 } state;
+enum SM_States {START, SM_0, SM_1, SM_2, SM_3, SM_4, SM_5 } state;
 
 void TickFct() {
 	switch(state) {
 		case START:
+			if ((~PINA & 0x01) == 0x01)
+			{
+				state = START;
+			}
+			else
+			{
+				state = SM_0;
+			}
+			break;
+		case SM_0:
 			if ((~PINA & 0x01) == 0x01)
 			{
 				state = SM_4;
@@ -92,7 +102,7 @@ void TickFct() {
 			}
 			else
 			{	
-				state = START;
+				state = SM_0;
 			}
 			break;
 		case SM_4:
@@ -108,21 +118,11 @@ void TickFct() {
 		case SM_5:
 			if ((~PINA & 0x01) == 0x01)
 			{
-				state = SM_6;
+				state = START;
 			}
 			else
 			{
 				state = SM_5;
-			}
-			break;
-		case SM_6:
-			if ((~PINA & 0x01) == 0x01)
-			{
-				state = SM_6;
-			}
-			else
-			{
-				state = START;
 			}
 			break;
 		default:
@@ -132,23 +132,25 @@ void TickFct() {
 
 	switch(state) {
 		case START:
-			PORTB = 0x01;
+			PORTC = 0x01;
+			break;
+		case SM_0:
+			PORTC = 0x01;
 			break;
 		case SM_1:
-			PORTB = 0x02;
+			PORTC = 0x02;
 			break;
 		case SM_2:
-			PORTB = 0x04;
+			PORTC = 0x04;
 			break;
 		case SM_3:
-			PORTB = 0x02;
+			PORTC = 0x02;
 			break;
 		case SM_4:
 		case SM_5:
-		case SM_6:
 			break;
 		default:
-			PORTB = 0x01;
+			PORTC = 0x01;
 			break;
 	}
 
@@ -158,7 +160,7 @@ void TickFct() {
 int main(void) {
     /* Insert DDR and PORT initializations */
     DDRA = 0x00; PORTA = 0xFF;
-    DDRB = 0xFF; PORTB = 0x00;
+    DDRC = 0xFF; PORTC = 0x00;
     TimerSet(300);
     TimerOn();
     PORTB = 0x01;
