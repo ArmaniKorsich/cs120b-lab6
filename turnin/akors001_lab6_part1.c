@@ -51,7 +51,7 @@ void TimerSet(unsigned long M) {
 }
 
 
-enum SM_States {START, SM_1, SM_2 } state;
+enum SM_States {START, SM_1, SM_2, SM_3 } state;
 
 void TickFct() {
 	switch(state) {
@@ -62,7 +62,10 @@ void TickFct() {
 			state = SM_2;
 			break;
 		case SM_2:
-			state = START;
+			state = SM_3;
+			break;
+		case SM_3:
+			state = SM_1;
 			break;
 		default:
 			state = START;
@@ -74,9 +77,12 @@ void TickFct() {
 			PORTB = 0x01;
 			break;
 		case SM_1:
-			PORTB = 0x02;
+			PORTB = 0x01;
 			break;
 		case SM_2:
+			PORTB = 0x02;
+			break;
+		case SM_3:
 			PORTB = 0x04;
 			break;
 		default:
