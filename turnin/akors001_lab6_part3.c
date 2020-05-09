@@ -152,7 +152,7 @@ int main(void) {
     DDRB = 0xFF; PORTB = 0x00;
     TimerSet(100);
     TimerOn();
-    PORTB = 0x00;
+    PORTB = 0x07;
     /* Insert your solution below */
     while (1) {
         while (!TimerFlag);
